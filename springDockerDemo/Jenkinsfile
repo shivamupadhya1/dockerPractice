@@ -1,17 +1,14 @@
 pipeline {
-    
     agent any
-   
 
+    stages { // Add this block to contain all the stages
         stage('Build') {
             steps {
                 // Build the project using Maven
                 script {
-                    
-                    sh 'mvn clean install -Ddependency-check.skip=true'
+                    bat 'mvn clean install -Ddependency-check.skip=true' // Use 'bat' if on Windows
                 }
             }
         }
     }
-    
-
+}
