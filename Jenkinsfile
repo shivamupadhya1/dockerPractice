@@ -1,19 +1,21 @@
 pipeline {
     agent any
     environment {
-        GIT_URL = 'git@github.com:shivamupadhya1/dockerPractice.git'  // SSH URL of the GitHub repository
-        GIT_CREDENTIALS = 'github-ssh-credentials'  // The ID of the Jenkins SSH credentials
-       
-       
+        GIT_URL = 'https://github.com/shivamupadhya1/dockerPractice.git'  // Define URL as an environment variable
+        GIT_CREDENTIALS_ID = 'GitHub-Access'  // Define the credentials ID as an environment variable
     }
-    
+
     stages {
         stage('Checkout') {
             steps {
-                // Checkout from GitHub using SSH
-                git credentialsId: "${GIT_CREDENTIALS}", url: "${GIT_URL}"
+                // Checkout from GitHub using HTTPS and credentials stored in Jenkins
+                git(
+                    url: "${env.GIT_URL}",  // Use the environment variable for the GitHub repo URL
+                    credentialsId: "${env.GIT_CREDENTIALS_ID}"  // Use the environment variable for the credentials ID
+                )
             }
         }
+    }
 
         stage('Build') {
             steps {
