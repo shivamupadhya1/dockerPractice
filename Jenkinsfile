@@ -3,7 +3,7 @@ pipeline {
     environment {
         GIT_URL = 'git@github.com:shivamupadhya1/dockerPractice.git'  // SSH URL of the GitHub repository
         GIT_CREDENTIALS = 'github-ssh-credentials'  // The ID of the Jenkins SSH credentials
-        NEXUS_URL = 'http://localhost:8090/repository/INTEGRATION_CLIENTS/'  // Nexus repository URL
+       
        
     }
     
@@ -34,10 +34,10 @@ pipeline {
                     nexusArtifactUploader(
                         nexusVersion: 'nexus3',
                         protocol: 'http',
-                        nexusUrl: "${NEXUS_URL}",
+                        nexusUrl: 'http://localhost:8090/',
                         groupId: "${mavenPom.groupId}",
                         version: "${mavenPom.version}",
-                        repository: '',  // Nexus repository name
+                        repository: 'INTEGRATION_CLIENTS',  // Nexus repository name
                         credentialsId: 'nexus-user',
                         artifacts: [
                             [artifactId: "${mavenPom.artifactId}",
