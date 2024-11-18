@@ -17,5 +17,31 @@ pipeline {
                 sh 'mvn clean install'
             }
         }
+        stage('Upload to Nexus') {
+            steps {
+                script {
+                    def mavenPom = readMavenPom file: 'pom.xml'
+                    nexusArtifactUploader(
+                        nexusVersion: 'nexus3',
+                        protocol: 'http',
+                        nexusUrl: "${env.NEXUS_URL}",
+                        groupId: "${mavenPom.groupId}",
+                        version: "${mavenPom.version}",
+                        repository: "${env.REPOSITORY}",
+                        credentialsId: "${env.NEXUS_CREDENTIALS_ID}",
+                        artifacts: [
+                            [artifactId: "${mavenPom.artifactId}",
+                             classifier: '',
+                             file: "target/${mavenPom.artifactId}-${mavenPom.version}.jar",
+                             type: 'jar'],
+                            [artifactId: "${mavenPom.artifactId}",
+                             classifier: '',
+                             file: "pom.xml",
+                             type: 'pom']
+                        ]
+                    )
+                }
+            }
+        }
     }
 }
