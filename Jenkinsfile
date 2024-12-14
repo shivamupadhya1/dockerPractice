@@ -3,11 +3,11 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-				dir('ckyc-client') {
-					echo 'Building..'
-					lastChanges since: 'LAST_SUCCESSFUL_BUILD', format:'SIDE',matching: 'LINE'
-					sh 'mvn clean install -Ddependency-check.skip=true'
-				}                
+		dir('ckyc-client') {
+			echo 'Building..'
+			lastChanges since: 'LAST_SUCCESSFUL_BUILD', format:'SIDE',matching: 'LINE'
+			sh 'mvn clean install -Ddependency-check.skip=true'
+		}                
             }
         }
 		
